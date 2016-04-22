@@ -30,7 +30,15 @@ int main(int argc, char **argv)
   // now set the depth buffer to 24 bits
   format.setDepthBufferSize(24);
   // now we are going to create our scene window
-  NGLScene window;
+  if(argc < 2){
+    std::cerr << "no file given!" << std::endl;
+    std::cout << "usage: ObjLoader [filename]" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+  else{
+    std::cout << "loading obj: " << argv[1] << std::endl;
+  }
+  NGLScene window(argv[1]);
   // and set the OpenGL format
   window.setFormat(format);
   // we can now query the version to see if it worked

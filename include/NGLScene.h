@@ -6,6 +6,8 @@
 #include <ngl/Transformation.h>
 #include <ngl/Text.h>
 #include <QOpenGLWindow>
+#include <ngl/Obj.h>
+#include <memory>
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NGLScene.h
 /// @brief this class inherits from the Qt OpenGLWindow and allows us to use NGL to draw OpenGL
@@ -26,7 +28,7 @@ class NGLScene : public QOpenGLWindow
     /// @brief ctor for our NGL drawing class
     /// @param [in] parent the parent window to the class
     //----------------------------------------------------------------------------------------------------------------------
-    NGLScene();
+    NGLScene(const std::string &_objFileName);
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief dtor must close down ngl and release OpenGL resources
     //----------------------------------------------------------------------------------------------------------------------
@@ -80,6 +82,10 @@ private:
     //----------------------------------------------------------------------------------------------------------------------
     void wheelEvent( QWheelEvent *_event);
     //----------------------------------------------------------------------------------------------------------------------
+    void loadMatricesToShader(int _mode);
+
+    void timerEvent(QTimerEvent *);
+
     /// @brief window width
     //----------------------------------------------------------------------------------------------------------------------
     int m_width;
@@ -88,6 +94,18 @@ private:
     //----------------------------------------------------------------------------------------------------------------------
     int m_height;
 
+    std::string m_objFileName;
+
+    std::unique_ptr<ngl::Obj> m_mesh;
+
+    float m_rotation;
+
+    ngl::Mat4 m_transform;
+    ngl::Mat4 m_view;
+    ngl::Mat4 m_project;
+
+    std::vector<float> m_sphereVelocities;
+    std::vector<ngl::Vec3> m_spherePositions;
 };
 
 
